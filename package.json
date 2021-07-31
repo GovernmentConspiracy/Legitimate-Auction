@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/GovernmentConspiracy/Legitimate-Auction/issues"
   },
-  "homepage": "https://github.com/GovernmentConspiracy/Legitimate-Auction#readme"
+  "homepage": "https://github.com/GovernmentConspiracy/Legitimate-Auction#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3"
+  }
 }
