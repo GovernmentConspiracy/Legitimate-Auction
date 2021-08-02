@@ -13,8 +13,6 @@ bot.once("ready", () => {
 });
 
 bot.on("message", async (msg) => {
-	
-	console.log(msg)
 	console.log(msg.content)
 
 	
@@ -30,7 +28,6 @@ bot.on("message", async (msg) => {
 			message.awaitReactions(filter, {max: 1, time: 10000, errors: ['time'] })
 				.then((collected) => {
 					const reaction = collected.first();
-					console.log(reaction.users.cache);
 					
 					map = reaction.users.cache;
 					map.delete(bot.user.id);
