@@ -7,6 +7,14 @@ const Discord = require("discord.js");
 const PREFIX = '$';
 const serverAuctions = new Map()
 
+const commandMap = {
+	"au": auctionParser,
+	"auction": auctionParser,
+	"bid": (message, cmd, args) => {
+		auctionParser(message, "auction", [cmd].concat(args))
+	},
+	"deez": getNutted
+}
 
 /**
  * Nuts the user. Test command which does not require
@@ -38,7 +46,23 @@ const serverAuctions = new Map()
 
 }
 
+/**
+ * 4 meta commands: help, bid, create, delete, settings
+ * @param {Discord.Message} message 
+ * @param {String} cmd 
+ * @param {String} args 
+ * @returns 
+ */
+function auctionParser(message, cmd, args) {
+	const {channel} = message;
+	if (args.length === 0) {
+		return message.reply(`Type $${cmd} help for commands.`)
+	}
+	channel.send(`Command: ${PREFIX}${cmd} [${args.join(", ")}]`);
+}
+
 exports.auctionHouseInit = () => {
+	//TODO: more here
 	console.log("Auction handler is up.");
 };
 
@@ -47,7 +71,7 @@ exports.auctionHouseInit = () => {
  * @param {Discord.Message} message 
  */
 exports.auctionHandler = async (message) => {
-	const {author, content, channel} = message;
+	const {author, content} = message;
 
 	// Ignores bot messages
 	if (author.bot) {
@@ -59,27 +83,20 @@ exports.auctionHandler = async (message) => {
 		return;
 	}
 
-	if (content === `${PREFIX}deez`) {
-		getNutted(message);
-		return;
-	}
-
 	const [cmd, ...args] = content
 		.trim()										// Remove whitespace
 		.substring(PREFIX.length)					// Remove prefix
-		.split(/\s+(?=(?:(?:[^"]*"){2})*[^"]*$)/)	//To do: fix if unbalanced quotation marks.
+		.split(/\s+(?=(?:(?:[^"]*"){2})*[^"]*$)/)	// TODO: fix if unbalanced quotation marks.
 
 	console.log(`Command: ${cmd}`);
 	console.log(`Args: ${args}`);
-		
-	if (cmd === "auction" || cmd ==="au") {
-		if (args.length === 0) {
-			return message.reply("Type $auction help for commands.")
-		}
-		channel.send(`Command: ${PREFIX}${cmd} [${args.join(", ")}]`);
+
+	if (commandMap[cmd]) {
+		commandMap[cmd](message, cmd, args);
 	}
 }
 
-function auctionHouseAdd(key) {
+
+function createNewAuction(key) {
 	// serverAuctions.set(key, new Auction());
 }
