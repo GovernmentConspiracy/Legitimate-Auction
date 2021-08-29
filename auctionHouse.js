@@ -13,7 +13,15 @@ const commandMap = {
 	"bid": (message, cmd, args) => {
 		auctionParser(message, "auction", [cmd].concat(args))
 	},
-	"deez": getNutted
+	"test": getNutted
+}
+
+const auctionCommandMap = {
+	"bid": a,
+	"help": a ,
+	"create": a,
+	"delete": a,
+	"settings": a
 }
 
 /**
@@ -47,7 +55,7 @@ const commandMap = {
 }
 
 /**
- * 4 meta commands: help, bid, create, delete, settings
+ * 5 meta commands: help, bid, create, delete, settings
  * @param {Discord.Message} message 
  * @param {String} cmd 
  * @param {String} args 
@@ -59,6 +67,8 @@ function auctionParser(message, cmd, args) {
 		return message.reply(`Type $${cmd} help for commands.`)
 	}
 	channel.send(`Command: ${PREFIX}${cmd} [${args.join(", ")}]`);
+
+	
 }
 
 exports.auctionHouseInit = () => {
