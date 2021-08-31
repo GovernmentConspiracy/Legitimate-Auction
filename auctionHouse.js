@@ -2,7 +2,7 @@
  * Auction handler for each server.
  */
 
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 require('discord-reply');
 // const Auction = require(auction);
 const PREFIX = '$';
@@ -23,9 +23,9 @@ const auctionCommandMap = {
 	"bid": (message, args) => {
 		message.lineReply(`You bid ${args[0]}.`);
 	},
-	"help": noFunct,
 	"create": noFunct,
 	"delete": noFunct,
+	"help": noFunct,
 	"settings": noFunct
 }
 
@@ -34,10 +34,10 @@ function noFunct() {
 }
 
 /**
- * Nuts the user. Test command which does not require
+ * Nuts the user. Test command which does not require the auction handler to work.
  * @param {Discord.Message} message 
  */
- async function getNutted(message) {
+async function getNutted(message) {
 	const {author, channel} = message;
 	const nutEmoji = '🥜';
 	const nuttedMsg = await message.lineReply('Who is deez?', { fetchReply: true });
@@ -88,7 +88,7 @@ function auctionParser(message, cmd, args) {
 }
 
 exports.auctionHouseInit = () => {
-	//TODO: more here
+	//TODO: more here, i.e. load settings from a json file.
 	console.log("Auction handler is up.");
 };
 
@@ -116,13 +116,16 @@ exports.auctionHandler = async (message) => {
 
 	console.log(`Command: ${cmd}`);
 	console.log(`Args: ${args}`);
-
-	if (commandMap[cmd]) {
-		commandMap[cmd](message, cmd, args);
+	const commandFunction = commandMap[cmd];
+	if (commandFunction) {
+		commandFunction(message, cmd, args);
 	}
 }
 
-
 function createNewAuction(key) {
-	// serverAuctions.set(key, new Auction());
+	serverAuctions.set(key, new Auction());
+}
+
+function getAuction(key) {
+	return serverAuctions.get(key);
 }
