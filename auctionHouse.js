@@ -3,6 +3,7 @@
  */
 
 const Discord = require("discord.js");
+require('discord-reply');
 // const Auction = require(auction);
 const PREFIX = '$';
 const serverAuctions = new Map()
@@ -13,15 +14,23 @@ const commandMap = {
 	"bid": (message, cmd, args) => {
 		auctionParser(message, "auction", [cmd].concat(args))
 	},
-	"test": getNutted
+	"test": getNutted,
+	"deez": getNutted
 }
 
+// TODO
 const auctionCommandMap = {
-	"bid": a,
-	"help": a ,
-	"create": a,
-	"delete": a,
-	"settings": a
+	"bid": (message, args) => {
+		message.lineReply(`You bid ${args[0]}.`);
+	},
+	"help": noFunct,
+	"create": noFunct,
+	"delete": noFunct,
+	"settings": noFunct
+}
+
+function noFunct() {
+	console.log("TODO11!!");
 }
 
 /**
@@ -31,7 +40,7 @@ const auctionCommandMap = {
  async function getNutted(message) {
 	const {author, channel} = message;
 	const nutEmoji = '🥜';
-	const nuttedMsg = await channel.send('Who is deez?', { fetchReply: true });
+	const nuttedMsg = await message.lineReply('Who is deez?', { fetchReply: true });
 
 	const filter = (reaction, user) => {
 		return nutEmoji === reaction.emoji.name && !user.bot
@@ -58,17 +67,24 @@ const auctionCommandMap = {
  * 5 meta commands: help, bid, create, delete, settings
  * @param {Discord.Message} message 
  * @param {String} cmd 
- * @param {String} args 
+ * @param {String[]} args 
  * @returns 
  */
 function auctionParser(message, cmd, args) {
 	const {channel} = message;
 	if (args.length === 0) {
-		return message.reply(`Type $${cmd} help for commands.`)
+		message.lineReply(`Type ${PREFIX}${cmd} help for commands.`);
+		return;
 	}
 	channel.send(`Command: ${PREFIX}${cmd} [${args.join(", ")}]`);
 
-	
+	const [meta, ...params] = args;
+	const auctionFunction = auctionCommandMap[meta];
+	if (!auctionFunction) {
+		message.lineReply(`No such command for ${PREFIX}${cmd} ${meta}.`);
+		return;
+	}
+	auctionFunction(message, params);
 }
 
 exports.auctionHouseInit = () => {
