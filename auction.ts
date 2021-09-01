@@ -5,13 +5,13 @@ import {Queue} from './queue'
 import {Lot} from './lot'
 
 export class Auction {
-    readonly serverID: number
-    readonly queue: Queue<Lot>
+	readonly serverID: number
+	readonly queue: Queue<Lot>
 
-    constructor(serverID: number) {
+	constructor(serverID: number) {
 		this.serverID = serverID;
-        this.queue = new Queue<Lot>();
-        
+		this.queue = new Queue<Lot>();
+		
 	}
 
 }
