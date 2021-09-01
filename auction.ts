@@ -1,14 +1,17 @@
 /**
  * One auction is used per server.
  */
-require('./lot.ts')
+import {Queue} from './queue'
+import {Lot} from './lot'
 
-class Auction {
-    #serverID: number
-    #queue: Queue
+export class Auction {
+    readonly serverID: number
+    readonly queue: Queue<Lot>
 
     constructor(serverID: number) {
-		this.#serverID = serverID;
+		this.serverID = serverID;
+        this.queue = new Queue<Lot>();
+        
 	}
 
 }

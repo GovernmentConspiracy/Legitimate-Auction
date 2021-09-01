@@ -4,7 +4,7 @@
 
 const Discord = require('discord.js');
 require('discord-reply');
-require('./auction.ts');
+import {Auction} from './auction'
 const PREFIX = '$';
 const serverAuctions = new Map();
 
