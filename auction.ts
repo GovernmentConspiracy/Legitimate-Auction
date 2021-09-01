@@ -5,5 +5,10 @@ require('./lot.ts')
 
 class Auction {
     #serverID: number
-    #queue: Lot[]
+    #queue: Queue
+
+    constructor(serverID: number) {
+		this.#serverID = serverID;
+	}
+
 }

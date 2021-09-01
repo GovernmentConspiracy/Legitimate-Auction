@@ -4,9 +4,9 @@
 
 const Discord = require('discord.js');
 require('discord-reply');
-// const Auction = require(auction);
+require('./auction.ts');
 const PREFIX = '$';
-const serverAuctions = new Map()
+const serverAuctions = new Map();
 
 const commandMap = {
 	"au": auctionParser,
@@ -59,8 +59,6 @@ async function getNutted(message) {
 			.catch(() => {
 				channel.send(`Come on ${author.toString()}, react to the message.`);
 			});
-
-
 }
 
 /**

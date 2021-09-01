@@ -1,45 +1,19 @@
 class Lot {
 	
-	#seller: string
-	get seller() {
-		return this.#seller
-	}
+	readonly seller: string
 
-	#item: string
-	get item() {
-		return this.#item
-	}
+	readonly item: string
 
-	#description: string
-	get description() {
-		return this.#description
-	}
+	readonly description: string
 
-	#startingBid: number
-	get startingBid() {
-		return this.#startingBid
-	}
+	readonly startingBid: number
 
-	#bid: number
-	get bid() {
-		return this.#bid
-	}
-	set bid(value) {
-		this.#bid = value
-	}
+	bid: number
 
-	#increment: number
-	get increment() {
-		return this.#increment
-	}
-	set increment(value) {
-		this.#increment = value
-	}
+	increment: number
 
-	#buyout: number
-	get buyout() {
-		return this.#buyout
-	}
+	readonly buyout: number
+
 	/**
 	 * Creates an auction lot instance.
 	 * @param {string} seller		Seller's name
@@ -50,13 +24,13 @@ class Lot {
 	 * @param {number} buyout 		Maximum bid when auction ends. Default to 0 if no buyout.
 	 */
 	constructor(seller: string, item: string, desciption: string, startingBid: number, increment: number, buyout: number) {
-		this.#seller = seller;
-		this.#item = item;
-		this.#description = desciption;
-		this.#startingBid = startingBid;
-		this.#bid = 0;
-		this.#increment = increment;
-		this.#buyout = buyout;
+		this.seller = seller;
+		this.item = item;
+		this.description = desciption;
+		this.startingBid = startingBid;
+		this.bid = 0;
+		this.increment = increment;
+		this.buyout = buyout;
 	} 	
 
 	
