@@ -13,5 +13,5 @@ export class Auction {
 		this.queue = new Queue<Lot>();
 		
 	}
-
+	
 }

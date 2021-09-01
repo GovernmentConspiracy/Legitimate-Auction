@@ -1,16 +1,16 @@
 /**
  * Generic typescript queue. 
  */
-class Queue<T> {
-	#head: number
-	#data: T[]
+export class Queue<T> {
+	private head: number
+	private data: (T | undefined)[]
 
 	/**
 	 * Generates a new Queue object.
 	 */
 	constructor() {
-		this.#head = 0;
-		this.#data = [];
+		this.head = 0;
+		this.data = [];
 	}
 
 	/**
@@ -18,7 +18,7 @@ class Queue<T> {
 	 * @param entry enqueued entry
 	 */
 	public enqueue(entry: T) {
-		this.#data.push(entry);
+		this.data.push(entry);
 	}
 
 	/**
@@ -28,17 +28,20 @@ class Queue<T> {
 	 * @returns dequeued entry
 	 */
 	public dequeue(): T | undefined {
-		let datum: T = this.peek();
+		if (this.data.length == 0) {
+			return undefined;
+		}
 
-		if (datum !== undefined) {
-			// Dereferences the object in the array.
-			this.#data[this.#head++] = undefined;
-			
-			// If half the array is empty, clear it. 
-			if (this.#head > this.#data.length/2) {
-				this.#data.slice(this.#head);
-				this.#head = 0;
-			}
+		// Dereferences the object in the array.
+		let datum = this.data[this.head];
+		
+		// Removes reference to allow garbage collection.
+		this.data[this.head++] = undefined;
+		
+		// If half the array is empty, clear it. 
+		if (this.head >= this.data.length/2) {
+			this.data = this.data.slice(this.head);
+			this.head = 0;
 		}
 
 		return datum;
@@ -49,7 +52,7 @@ class Queue<T> {
 	 * @returns first entry
 	 */
 	public peek(): T | undefined {
-		return this.#data.length > 0 ? this.#data[this.#head] : undefined;
+		return this.data.length > 0 ? this.data[this.head] : undefined;
 	}
 
 	/**
@@ -57,19 +60,23 @@ class Queue<T> {
 	 * @returns number of entries
 	 */
 	public size(): number {
-		return this.#data.length - this.#head;
+		return this.data.length - this.head;
 	}
 
 	/**
 	 * Returns true if the queue is empty.
-	 * @returns 
+	 * @returns true if empty
 	 */
 	public isEmpty(): boolean {
 		return this.size() == 0;
 	}
 
+	/**
+	 * Returns the string format of the data.
+	 * @returns string representation
+	 */
 	public toString(): string {
-		return this.#data.toString();
+		return `usage: ${this.size()}/${this.data.length} - data: [${this.data.toString()}]`;
 	}
 }
 

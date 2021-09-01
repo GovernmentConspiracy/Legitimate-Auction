@@ -1,5 +1,5 @@
 /**
- * Auction handler for each server.
+ * Auction handler for each discord server.
  */
 
 const Discord = require('discord.js');
