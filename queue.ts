@@ -68,6 +68,8 @@ export class Queue<T> {
         return this.size() == 0;
     }
 
-
+    public toString(): string {
+        return this.#data.toString();
+    }
 }
 
