@@ -76,7 +76,7 @@ function auctionParser(message, cmd, args) {
 	channel.send(`Command: ${PREFIX}${cmd} [${args.join(", ")}]`);
 
 	const [meta, ...params] = args;
-	const auctionFunction = auctionCommandMap[meta];
+	let auctionFunction = auctionCommandMap[meta];
 	if (!auctionFunction) {
 		message.reply(`No such command for ${PREFIX}${cmd} ${meta}.`);
 		return;
@@ -113,7 +113,7 @@ exports.auctionHandler = async (message) => {
 
 	console.log(`Command: ${cmd}`);
 	console.log(`Args: ${args}`);
-	const commandFunction = commandMap[cmd];
+	let commandFunction = commandMap[cmd];
 	if (commandFunction) {
 		commandFunction(message, cmd, args);
 	}

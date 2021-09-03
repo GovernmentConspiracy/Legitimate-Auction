@@ -5,7 +5,7 @@ export class Lot {
 	readonly description: string
 	readonly startingBid: number
 
-	bid: number //todo: change to user and bid amount pairs
+	bid: number //TODO: change to user and bid amount pairs
 	increment: number
 	readonly buyout: number
 
