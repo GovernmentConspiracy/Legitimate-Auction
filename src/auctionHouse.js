@@ -3,8 +3,7 @@
  */
 
 const Discord = require('discord.js');
-require('discord-reply');
-import {Auction} from './auction'
+// import { Auction } from './auction'
 const PREFIX = '$';
 const serverAuctions = new Map();
 
@@ -21,7 +20,7 @@ const commandMap = {
 // TODO
 const auctionCommandMap = {
 	"bid": (message, args) => {
-		message.lineReply(`You bid ${args[0]}.`);
+		message.reply(`You bid ${args[0]}.`);
 	},
 	"create": noFunct,
 	"delete": noFunct,
@@ -40,7 +39,7 @@ function noFunct() {
 async function getNutted(message) {
 	const {author, channel} = message;
 	const nutEmoji = '🥜';
-	const nuttedMsg = await message.lineReply('Who is deez?', { fetchReply: true });
+	const nuttedMsg = await message.reply('Who is deez?', { fetchReply: true });
 
 	const filter = (reaction, user) => {
 		return nutEmoji === reaction.emoji.name && !user.bot
@@ -71,7 +70,7 @@ async function getNutted(message) {
 function auctionParser(message, cmd, args) {
 	const {channel} = message;
 	if (args.length === 0) {
-		message.lineReply(`Type ${PREFIX}${cmd} help for commands.`);
+		message.reply(`Type ${PREFIX}${cmd} help for commands.`);
 		return;
 	}
 	channel.send(`Command: ${PREFIX}${cmd} [${args.join(", ")}]`);
@@ -79,7 +78,7 @@ function auctionParser(message, cmd, args) {
 	const [meta, ...params] = args;
 	const auctionFunction = auctionCommandMap[meta];
 	if (!auctionFunction) {
-		message.lineReply(`No such command for ${PREFIX}${cmd} ${meta}.`);
+		message.reply(`No such command for ${PREFIX}${cmd} ${meta}.`);
 		return;
 	}
 	auctionFunction(message, params);

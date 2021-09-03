@@ -2,10 +2,15 @@ const startMilli = Date.now();
 console.log("Starting: %s", new Date(startMilli));
 
 require('dotenv').config();
-const Discord = require('discord.js');	
+const Discord = require('discord.js');
+const { Client, Intents } = Discord
 const Auction = require('./auctionHouse');
 
-const bot = new Discord.Client();
+const bot = new Client({intents: [
+	Intents.FLAGS.GUILDS,
+	Intents.FLAGS.GUILD_MESSAGES,
+	Intents.FLAGS.GUILD_MESSAGE_REACTIONS
+	]});
 
 
 bot.once("ready", () => {
@@ -15,6 +20,6 @@ bot.once("ready", () => {
 });
 
 
-bot.on("message", Auction.auctionHandler);
+bot.on("messageCreate", Auction.auctionHandler);
 
 bot.login(process.env.BOT_TOKEN);

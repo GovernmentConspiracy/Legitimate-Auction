@@ -6,12 +6,13 @@ import {Lot} from './lot'
 
 export class Auction {
 	readonly serverID: number
-	readonly queue: Queue<Lot>
+	private readonly queue: Queue<Lot>
+	private readonly blacklist: Set<number>
 
 	constructor(serverID: number) {
 		this.serverID = serverID;
 		this.queue = new Queue<Lot>();
-		
 	}
+	
 	
 }
