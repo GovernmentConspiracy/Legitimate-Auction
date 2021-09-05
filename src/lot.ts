@@ -30,7 +30,7 @@ export class Lot {
 	 * @param {number} increment 	Minimum bid increase
 	 * @param {number} buyout 		Maximum bid when auction ends. Default to 0 if no buyout.
 	 */
-	constructor(seller: Snowflake, item: string, desciption: string, startingBid: number, increment: number, buyout: number) {
+	constructor(seller: Snowflake, item: string, desciption: string, startingBid: number, increment: number, buyout: number = 0) {
 		this.seller = seller;
 		this.item = item;
 		this.description = desciption;

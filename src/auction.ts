@@ -3,36 +3,60 @@
  */
 import {Queue} from './queue'
 import {Lot} from './lot'
-import { Snowflake } from 'discord-api-types';
+import { Snowflake, Guild } from 'discord.js';
 
 export class Auction {
-	readonly serverID: string;
+	readonly server: Guild;
 	private readonly queue: Queue<Lot>;
-	private currentLot: Lot;
+
+	/** 
+	 * Blacklist
+	 */
 	private readonly traderBlacklist: Set<Snowflake>;
 	private readonly roleBlacklist: Set<Snowflake>;
-	// private auctionOn: boolean;
 
-	constructor(serverID: Snowflake) {
-		this.serverID = serverID;
+	private auctionOn: boolean;
+
+	constructor(server: Guild) {
+		this.server = server;
 		this.queue = new Queue<Lot>();
-		this.traderBlacklist = new Set();
-		// this.auctionOn = true;
-		this.currentLot = null;
+		this.traderBlacklist = new Set<Snowflake>();
+		this.roleBlacklist = new Set<Snowflake>();
+		this.auctionOn = true;
+	}
+
+	public getCurrentLot(): Lot {
+		if (this.queue.isEmpty()) {
+			throw new Error("There are no current trades.");
+		}
+		return this.queue.peek();
 	}
 	
 	public addBid(buyer: Snowflake, raise: number) {
-		if (this.currentLot === null) {
+		let currentLot = this.getCurrentLot();
+
+		if (currentLot === null) {
 			throw new Error("There are no current trades.");
 		}
 
 		if (this.isBlacklisted(buyer)) {
 			throw new Error("Bidder is blacklisted from trade.");
 		}
-		this.currentLot.addBid(buyer, raise);
+		currentLot.addBid(buyer, raise);
 	}
 
-	public isBlacklisted(trader: Snowflake): boolean {
+	public addLot(lot: Lot) {
+		//TODO
+		// if (lot.seller)
+	}
+
+	private isBlacklisted(trader: Snowflake): boolean {
+		// this.roleBlacklist.forEach((key) => {
+		// 	if (this.server.) {
+		// 		return true;
+		// 	}
+		// })
+
 		return this.traderBlacklist.has(trader);
 	}
 
