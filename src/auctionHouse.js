@@ -1,11 +1,11 @@
 /**
- * Auction handler for each discord server.
+ * Auction handler. Handles messages for each discord guild.
  */
 
 const Discord = require('discord.js');
-// import { Auction } from './auction'
+const Auction = require('./auction')
 const PREFIX = '$';
-const serverAuctions = new Map();
+const serverAuctions = new Map(); // {guildID to Auction}
 
 const commandMap = {
 	"au": auctionParser,
@@ -22,13 +22,13 @@ const auctionCommandMap = {
 	"bid": (message, args) => {
 		message.reply(`You bid ${args[0]}.`);
 	},
-	"create": noFunct,
-	"delete": noFunct,
-	"help": noFunct,
-	"settings": noFunct
+	"create": todoFunct,
+	"delete": todoFunct,
+	"help": todoFunct,
+	"settings": todoFunct
 }
 
-function noFunct() {
+function todoFunct() {
 	console.log("TODO11!!");
 }
 
@@ -46,18 +46,20 @@ async function getNutted(message) {
 	};
 
 	await nuttedMsg.react(nutEmoji)
-		nuttedMsg.awaitReactions(filter, {max: 1, time: 10000, errors: ['time'] })
-			.then((collected) => {
-				const reaction = collected.first();
-				
-				map = reaction.users.cache;
-				map.delete(nuttedMsg.author.id);
-				channel.send(`deez nuts lmao ${map.first().toString()}`);
-				
-			})
-			.catch(() => {
-				channel.send(`Come on ${author.toString()}, react to the message.`);
-			});
+
+	nuttedMsg.awaitReactions({filter, max: 1, time: 10000, errors: ['time'] })
+		.then((collected) => {
+			console.log(`Reaction clicked: ${nutEmoji}`);
+			const reaction = collected.first();
+			
+			let map = reaction.users.cache;
+			map.delete(nuttedMsg.author.id);
+			channel.send(`deez nuts lmao ${map.first().toString()}`);
+			
+		})
+		.catch(() => {
+			channel.send(`Come on ${author.toString()}, react to the message.`);
+		});
 }
 
 /**
@@ -85,7 +87,8 @@ function auctionParser(message, cmd, args) {
 }
 
 exports.auctionHouseInit = () => {
-	//TODO: more here, i.e. load settings from a json file.
+	//TODO: more here, i.e. load settings from a json file XOR use database
+	console.log("Some database stuff here.");
 	console.log("Auction handler is up.");
 };
 

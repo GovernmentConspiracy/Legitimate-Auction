@@ -38,7 +38,7 @@ export class Queue<T> {
 		// Removes reference to allow garbage collection.
 		this.data[this.head++] = undefined;
 		
-		// If half the array is empty, clear it. 
+		// If half the array is empty, clear the empty elements.
 		if (this.head >= this.data.length/2) {
 			this.data = this.data.slice(this.head);
 			this.head = 0;

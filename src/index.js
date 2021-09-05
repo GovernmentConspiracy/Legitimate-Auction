@@ -19,7 +19,6 @@ bot.once("ready", () => {
 	Auction.auctionHouseInit();
 });
 
-
 bot.on("messageCreate", Auction.auctionHandler);
 
 bot.login(process.env.BOT_TOKEN);
