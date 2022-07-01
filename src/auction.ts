@@ -8,12 +8,13 @@ import { Snowflake, Guild } from 'discord.js';
 export class Auction {
 	readonly server: Guild;
 	private readonly queue: Queue<Lot>;
+	// private readonly currentLots: {}; //TODO: (map or js object?)
 
 	/** 
 	 * Blacklist
 	 */
 	private readonly traderBlacklist: Set<Snowflake>;
-	private readonly roleBlacklist: Set<Snowflake>;
+	// private readonly roleBlacklist: Set<Snowflake>;
 
 	private auctionOn: boolean;
 
@@ -21,11 +22,12 @@ export class Auction {
 		this.server = server;
 		this.queue = new Queue<Lot>();
 		this.traderBlacklist = new Set<Snowflake>();
-		this.roleBlacklist = new Set<Snowflake>();
+		
+		// this.roleBlacklist = new Set<Snowflake>();
 		this.auctionOn = true;
 	}
 
-	public getCurrentLot(): Lot {
+	public getCurrentLot(): Lot | undefined {
 		if (this.queue.isEmpty()) {
 			throw new Error("There are no current trades.");
 		}
@@ -35,7 +37,7 @@ export class Auction {
 	public addBid(buyer: Snowflake, raise: number) {
 		let currentLot = this.getCurrentLot();
 
-		if (currentLot === null) {
+		if (currentLot === undefined) {
 			throw new Error("There are no current trades.");
 		}
 
@@ -47,7 +49,9 @@ export class Auction {
 
 	public addLot(lot: Lot) {
 		//TODO
-		// if (lot.seller)
+		if (lot.seller) {
+
+		}
 	}
 
 	private isBlacklisted(trader: Snowflake): boolean {
